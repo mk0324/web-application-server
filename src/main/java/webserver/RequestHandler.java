@@ -3,6 +3,7 @@ package webserver;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.Map;
 
 import model.User;
 import org.slf4j.Logger;
@@ -32,25 +33,33 @@ public class RequestHandler extends Thread {
                 return;
             }
 
-            /*User user = new User();
-            String[] tokens = line.split(" ");
-            String[] uri = tokens[1].split("\\?");
-            String[] userInfo = uri[1].split("&");
-            for(String s : userInfo){
-                //user= s.split("=")[1];
-            }*/
-
             /*while (!line.equals("")){
                 line = br.readLine();
                 log.debug("header : {}", line);
             }*/
 
             String url = HttpRequestUtils.getUrl(line);
-            DataOutputStream dos = new DataOutputStream(out);
-            //byte[] body = "Hello World".getBytes();
-            byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+
+            if(url.startsWith("/user/create")) {
+                int index = url.indexOf("?");
+                String requestPath = url.substring(0, index);
+                String paramStr = url.substring(index + 1);
+                Map<String, String> params = HttpRequestUtils.parseQueryString(paramStr);
+                User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
+                log.debug("User : {}", user);
+
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = "가입에 성공".getBytes();
+                //byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
+                response200Header(dos, body.length);
+                responseBody(dos, body);
+            }else {
+                DataOutputStream dos = new DataOutputStream(out);
+                //byte[] body = "Hello World".getBytes();
+                byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
+                response200Header(dos, body.length);
+                responseBody(dos, body);
+            }
         } catch (IOException e) {
             log.error(e.getMessage());
         }
