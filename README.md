@@ -15,7 +15,19 @@
 * 각 요구사항을 구현하는 것이 중요한 것이 아니라 구현 과정을 통해 학습한 내용을 인식하는 것이 배움에 중요하다. 
 
 ### 요구사항 1 - http://localhost:8080/index.html로 접속시 응답
-* 
+* Closeable (JDK 7 이후 추가된 문법)
+자원을 할당 받아온 후 다 사용하면 close 해주는 문법
+사용하려는 Class 가 Closeable이라는 인터페이스를 implements 함
+
+  try(InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
+
+  } catch(	){
+
+  }
+
+* Java에서는 Stream data들을 읽기 편하도록 InputStream 이외의 Api 데이터들을 제공
+  InputStream을 InputStreamReader로 감싼 후 다시 InputStreamReader를 BufferedReader로 감쌀 수 있음
+  'java InputStream to BufferedReader' 키워드로 검색
 
 ### 요구사항 2 - get 방식으로 회원가입
 * 
