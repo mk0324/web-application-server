@@ -9,6 +9,9 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
+import util.IOUtils;
+
+import static java.lang.Integer.parseInt;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -26,24 +29,33 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
-            String line = br.readLine();
-            log.debug("request line : {}", line);
+            String firstLine = br.readLine();
+            String line = firstLine;
+            int contentLenth = -1;
+            //log.debug("request line : {}", line);
 
             if(line == null){
                 return;
             }
 
-            /*while (!line.equals("")){
-                line = br.readLine();
+            while (!line.equals("")){
                 log.debug("header : {}", line);
-            }*/
+                if(line.startsWith("Content-Length")){
+                    contentLenth = parseInt(line.split(" ")[1]);
+                }
+                line = br.readLine();
+            }
 
-            String url = HttpRequestUtils.getUrl(line);
+            String url = HttpRequestUtils.getUrl(firstLine);
 
             if(url.startsWith("/user/create")) {
-                int index = url.indexOf("?");
-                String requestPath = url.substring(0, index);
-                String paramStr = url.substring(index + 1);
+                //int index = url.indexOf("?");
+                //String paramStr = url.substring(index + 1);
+                String paramStr = null;
+                if(contentLenth != -1) {
+                    paramStr = IOUtils.readData(br, contentLenth);
+                }
+
                 Map<String, String> params = HttpRequestUtils.parseQueryString(paramStr);
                 User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
                 log.debug("User : {}", user);
