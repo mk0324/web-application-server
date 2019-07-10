@@ -10,42 +10,51 @@
 * WebServer를 실행한 후 브라우저에서 http://localhost:8080으로 접속해 "Hello World" 메시지가 출력되는지 확인한다.
 
 # 각 요구사항별 학습 내용 정리
-* 구현 단계에서는 각 요구사항을 구현하는데 집중한다. 
+* 구현 단계에서는 각 요구사항을 구현하는데 집중한다.
 * 구현을 완료한 후 구현 과정에서 새롭게 알게된 내용, 궁금한 내용을 기록한다.
-* 각 요구사항을 구현하는 것이 중요한 것이 아니라 구현 과정을 통해 학습한 내용을 인식하는 것이 배움에 중요하다. 
+* 각 요구사항을 구현하는 것이 중요한 것이 아니라 구현 과정을 통해 학습한 내용을 인식하는 것이 배움에 중요하다.
 
 ### 요구사항 1 - http://localhost:8080/index.html로 접속시 응답
-* Closeable (JDK 7 이후 추가된 문법)
+
+- Closeable (JDK 7 이후 추가된 문법)
 자원을 할당 받아온 후 다 사용하면 close 해주는 문법
 사용하려는 Class 가 Closeable이라는 인터페이스를 implements 함
 
-  try(InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
+        try(InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
 
-  } catch(	){
+        } catch(	){
 
-  }
+        }
 
-* Java에서는 Stream data들을 읽기 편하도록 InputStream 이외의 Api 데이터들을 제공
-  InputStream을 InputStreamReader로 감싼 후 다시 InputStreamReader를 BufferedReader로 감쌀 수 있음
-  'java InputStream to BufferedReader' 키워드로 검색
+- Java에서는 Stream data들을 읽기 편하도록 InputStream 이외의 Api 데이터들을 제공
+InputStream을 InputStreamReader로 감싼 후 다시 InputStreamReader를 BufferedReader로 감쌀 수 있음
+'java InputStream to BufferedReader' 키워드로 검색
 
 ### 요구사항 2 - get 방식으로 회원가입
-* 발생할 수 있는 문제점
+
+- 발생할 수 있는 문제점
 사용자가 입력한 정보가 노출 됨
 
 ### 요구사항 3 - post 방식으로 회원가입
-* 발생할 수 있는 문제점
+
+- 발생할 수 있는 문제점
 refresh 는 브라우저가 이전 요청정보를 유지하고 있다가 다시 요청하는 방식으로 작동
 회원가입이 중복으로 발생할 수 있음
 
 ### 요구사항 4 - redirect 방식으로 이동
-* redirect 방식으로 페이지 이동하는 것은 302 상태코드를 활용
+
+- redirect 방식으로 페이지 이동하는 것은 302 상태코드를 활용
+302와 헤더에 딸려있는 Location헤더를 이용하여 이동할 url 지정
+spring mvc -> redirect: 방식으로 사용
 
 ### 요구사항 5 - cookie
-* 
+
+-
 
 ### 요구사항 6 - stylesheet 적용
-* 
+
+-
 
 ### heroku 서버에 배포 후
-* 
+
+-
