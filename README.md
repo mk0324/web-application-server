@@ -21,11 +21,11 @@
 자원을 할당 받아온 후 다 사용하면 close 해주는 문법
 사용하려는 Class 가 Closeable이라는 인터페이스를 implements 함
 
-        try(InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
-
-        } catch(	){
-
-        }
+    try(InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
+    
+    } catch(	){
+    
+    }
 
 - Java에서는 Stream data들을 읽기 편하도록 InputStream 이외의 Api 데이터들을 제공
 
@@ -54,11 +54,15 @@ spring mvc -> redirect: 방식으로 사용
 
 ### 요구사항 5 - cookie
 
--
+- 브라우저 페이지들 간 Cookie 정보 유지
+
+서버에서 응답으로 Set-Cookie: logined=true 지정하면 브라우저가 Cookie를 읽은 후 서버에 재요청 할 때 포함
 
 ### 요구사항 6 - stylesheet 적용
 
--
+- HTTP 는 무상태 프로토콜 : 각 요청 간 데이터 공유 못함
+- Cookie : 로그인 상태 유무와 같은 상태 정보 공유를 위해 사용
+- 클라이언트에 저장된 쿠키는 보안이슈 포함 -> 세션 사용(쿠키 기반)
 
 ### heroku 서버에 배포 후
 
